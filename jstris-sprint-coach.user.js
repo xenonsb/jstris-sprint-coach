@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         jstris Sprint Coach
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.15
 // @description  Changes background colour when you go too slow (based on user-defined PPS thresholds)
 // @author       fourwide (xenonsb), Oki
 // @match        https://*.jstris.jezevec10.com/*
@@ -33,7 +33,7 @@ if(typeof getParams != "function"){var getParams=a=>{var params=a.slice(a.indexO
 
 function afterRoundStart() {
 	document.body.style['background-image'] = '';
-	document.body.style['background-color'] = 'green';
+	document.querySelector('#app').style.background = 'linear-gradient(rgba(0,255,0,0.15), rgba(0,255,0,0.15))';
 }
 
 var placeBlockFunc = Game['prototype']["startReadyGo"].toString()
@@ -43,13 +43,13 @@ Game['prototype']["startReadyGo"] = new Function(placeBlockFunc);
 function afterPlaceBlock() {
 	if(document.getElementById('backgroundPPS').checked && this['clock']>2 && 0 != this['getPPS']()) {
 		if (this['getPPS']() < +tRed.value) {
-			document.body.style['background-color'] = 'red';
+			document.querySelector('#app').style.background = 'linear-gradient(rgba(255,0,0,0.15), rgba(255,0,0,0.15))'
 		}
 		else if (this['getPPS']() < +tOrange.value) {
-			document.body.style['background-color'] = 'orange';
+			document.querySelector('#app').style.background = 'linear-gradient(rgba(255,175,0,0.25), rgba(255,175,0,0.25))';
 		}
 		else if (+tOrange.value <= this['getPPS']()) {
-			document.body.style['background-color'] = 'green';
+			document.querySelector('#app').style.background = 'linear-gradient(rgba(0,255,0,0.15), rgba(0,255,0,0.15))';
 		}
 	};
 };
